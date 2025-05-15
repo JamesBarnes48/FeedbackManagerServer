@@ -1,0 +1,31 @@
+{
+  "name": "feedbackmanagerserver",
+  "version": "1.0.0",
+  "description": "This is a web application to enable you to fill out a feedback form and then have it rendered on the screen. This is backend handles api calls and interacting with a MongoDB database mainly.",
+  "homepage": "https://github.com/JamesBarnes48/FeedbackManagerServer#readme",
+  "bugs": {
+    "url": "https://github.com/JamesBarnes48/FeedbackManagerServer/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JamesBarnes48/FeedbackManagerServer.git"
+  },
+  "license": "ISC",
+  "author": "james barnes",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --clear --transpile-only --ignore-watch node_modules ./src/app.ts",
+    "build": "rimraf ./dist && tsc",
+    "start": "node dist/app.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.15.18",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
+  }
+}
