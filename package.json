@@ -15,9 +15,9 @@
   "type": "commonjs",
   "main": "server.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --clear --transpile-only --ignore-watch node_modules ./src/app.ts",
+    "dev": "ts-node-dev --respawn --clear --transpile-only --ignore-watch node_modules ./src/server.ts",
     "build": "rimraf ./dist && tsc",
-    "start": "node dist/app.js"
+    "start": "node dist/server.js"
   },
   "dependencies": {
     "express": "^5.1.0"
