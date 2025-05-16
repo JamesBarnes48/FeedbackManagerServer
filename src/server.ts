@@ -16,6 +16,8 @@ const limiter = rateLimit({
     legacyHeaders: false,
 });
 
+app.use(limiter)
+
 // routing
 app.use('/feedback', feedbackRouter);
 
