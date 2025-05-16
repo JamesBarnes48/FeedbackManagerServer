@@ -1,6 +1,8 @@
 import express from 'express';
 import { rateLimit } from 'express-rate-limit';
 
+import { feedbackRouter } from './routes/feedback.router';
+
 //setup express
 const app = express();
 app.use(express.json());
@@ -14,14 +16,13 @@ const limiter = rateLimit({
     legacyHeaders: false,
 });
 
-//catch invalid routes
-app.all('*', (req, res) => {
-    res.status(404).send('Not Found');
-});
+// routing
+app.use('/feedback', feedbackRouter);
 
-// Basic route
-app.get('/', (req, res) => {
-  res.send('Hello, TypeScript + Express!');
+//catch invalid routes
+//obvs have to use this weird format for wildcards in typescript for some reason
+app.all('/{*any}', (req, res) => {
+  res.status(404).send('Not Found! Wooops');
 });
 
 // Start the server
