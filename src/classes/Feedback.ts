@@ -15,6 +15,7 @@ export default class Feedback{
     }
 
     isValid() {
-        return !!(this.rating > 0 && this.rating <= 5) && this.validExpectations.includes(this.expectation) && this.details.length;
+        console.info(this.isPositive)
+        return !!((this.isPositive !== undefined) && (this.rating > 0 && this.rating <= 5) && this.validExpectations.includes(this.expectation) && this.details.length);
     }
 }

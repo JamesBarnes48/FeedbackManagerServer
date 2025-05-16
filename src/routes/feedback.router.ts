@@ -14,7 +14,10 @@ feedbackRouter.post('/', (req: Request, res: Response) => {
         const {isPositive, rating, expectation, details} = req.body.feedbackProps;
     
         const feedbackInstance = new Feedback(isPositive, rating, expectation, details);
-        if(!feedbackInstance.isValid()) res.status(400).send('Invalid feedback parameters');
+        if(!feedbackInstance.isValid()){ 
+            res.status(400).send('Invalid feedback parameters');
+            return;
+        }
         res.status(200).send('success');
     }catch(err){
         res.status(500).send('Something went wrong');
