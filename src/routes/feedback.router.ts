@@ -10,7 +10,10 @@ feedbackRouter.get('/', (req, res) => {
 
 feedbackRouter.post('/', (req: Request, res: Response) => {
     try{
-        if(!req.body?.feedbackProps) res.status(400).send('feedbackProps could not be found in request body');
+        if(!req.body?.feedbackProps){
+            res.status(400).send('feedbackProps could not be found in request body');
+            return;
+        }
         const {isPositive, rating, expectation, details} = req.body.feedbackProps;
     
         const feedbackInstance = new Feedback(isPositive, rating, expectation, details);
