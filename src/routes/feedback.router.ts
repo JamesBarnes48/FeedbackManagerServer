@@ -6,10 +6,6 @@ import Feedback from '../classes/Feedback'
 export const feedbackRouter = express.Router();
 feedbackRouter.use(express.json());
 
-feedbackRouter.get('/', (req, res) => {
-    res.send('feedback!');
-})
-
 feedbackRouter.post('/', async (req: Request, res: Response) => {
     try{
         if(!req.body?.feedbackProps){
@@ -24,7 +20,7 @@ feedbackRouter.post('/', async (req: Request, res: Response) => {
             return;
         }
         
-        const result = await collections.feedback!.insertOne(feedbackInstance);
+        const result = await collections.feedback!.insertOne(feedbackInstance.toString());
 
         result
             ? res.status(201).send(`Successfully insert new feedback with id ${result.insertedId}`)
