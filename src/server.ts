@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { rateLimit } from 'express-rate-limit';
 
 import { connectToDatabase } from './connection';
@@ -8,6 +9,13 @@ import { feedbackRouter } from './routes/feedback.router';
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
+
+// Allow CORS from Vite dev server
+// Would not be an issue if served from same origin (URL) but if not (localhost:3000 vs localhost:5173) we need to explicitly say its allowed
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true, // if you're using cookies or auth headers
+}));
 
 //setup rate limiter middleware
 const limiter = rateLimit({
