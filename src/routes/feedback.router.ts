@@ -6,6 +6,18 @@ import Feedback from '../classes/Feedback'
 export const feedbackRouter = express.Router();
 feedbackRouter.use(express.json());
 
+feedbackRouter.get('/', async (req: Request, res: Response) => {
+    try{
+        const result = await collections.feedback!.find().toArray();
+        const feedbacks: Feedback[] = result.map((r): Feedback => {return new Feedback(r.isPositive, r.rating, r.expectation, r.details)});
+        
+        res.status(200).json({feedback: feedbacks.map((f): Object => {return f.toString()})});
+    }catch(err){
+        console.error('GET /feedback error: ', err);
+        res.status(500).send('Something went wrong');
+    }
+})
+
 feedbackRouter.post('/', async (req: Request, res: Response) => {
     try{
         if(!req.body?.feedbackProps){
@@ -27,6 +39,7 @@ feedbackRouter.post('/', async (req: Request, res: Response) => {
             : res.status(500).send("Failed to insert a new feedback.");
 
     }catch(err){
+        console.error('POST /feedback error: ', err);
         res.status(500).send('Something went wrong');
     }
 })
