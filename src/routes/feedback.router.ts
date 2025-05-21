@@ -32,7 +32,7 @@ feedbackRouter.post('/', async (req: Request, res: Response) => {
             return;
         }
         
-        const result = await collections.feedback!.insertOne(feedbackInstance.toString());
+        const result = await collections.feedback!.insertOne(feedbackInstance.format());
 
         result
             ? res.status(201).send(`Successfully insert new feedback with id ${result.insertedId}`)
