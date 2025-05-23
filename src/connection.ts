@@ -1,7 +1,7 @@
 import * as mongoDB from "mongodb";
 import * as dotenv from "dotenv";
 
-export const collections: { feedback?: mongoDB.Collection } = {}
+export const collections: { feedback?: mongoDB.Collection, users?: mongoDB.Collection } = {}
 
 export async function connectToDatabase () {
     //import config so it can accessed with process.env
@@ -13,9 +13,13 @@ export async function connectToDatabase () {
     //instantiate mongodb database using client instance
     const db: mongoDB.Db = client.db(process.env.DB_NAME);
    
-    //instantiate mongodb collection from database instance and export for use elsewhere
-    const feedbackCollection: mongoDB.Collection = db.collection(process.env.COLLECTION_NAME || '');
+    //instantiate feedback mongodb collection from database instance and export for use elsewhere
+    const feedbackCollection: mongoDB.Collection = db.collection(process.env.FEEDBACK_COLLECTION_NAME || '');
     collections.feedback = feedbackCollection;
+
+    //instatiate users collection
+    const usersCollection: mongoDB.Collection = db.collection(process.env.USERS_COLLECTION_NAME || '');
+    collections.users = usersCollection;
        
     console.log(`Successfully connected to database: ${db.databaseName} and collection: ${feedbackCollection.collectionName}`);
  }
