@@ -19,6 +19,10 @@ export default class User {
         return true;
     }
 
+    toString(){
+        return `username: ${this.username}, passwordHash: ${this.passwordHash}`;
+    }
+
     format(){
         return {username: this.username, passwordHash: this.passwordHash};
     }
