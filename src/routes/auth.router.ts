@@ -20,7 +20,8 @@ authRouter.post('/register', async (req: Request, res: Response) => {
             return;
         }
         //set password hash stored in User class
-        if(!newUser.setPassword(req.body.password)){
+        const setPasswordSuccess = await newUser.setPassword(req.body.password);
+        if(!setPasswordSuccess){
             res.status(400).json({message: 'Invalid password field'});
             return;
         }
