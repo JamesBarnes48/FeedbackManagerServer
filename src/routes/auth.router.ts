@@ -6,6 +6,30 @@ const jwt = require('jsonwebtoken');
 export const authRouter = express.Router();
 authRouter.use(express.json());
 
+authRouter.post('/register', async (req: Request, res: Response) => {
+    const { username, password } = req.body;
+    //validate username and password according to clientside checks
+    if(!/^[a-zA-Z0-9_]{3,30}$/.test(username)){
+        res.status(400).json({message: 'Invalid username field'});
+        return;
+    }
+    if(!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,32}$/.test(password)){
+        res.status(400).json({message: 'Invalid password field'});
+        return;
+    }
+
+    //check if username already exists
+    const foundUser = await collections.users!.findOne({username: username});
+    if(foundUser){
+        res.status(400).json({message: 'Username is already taken'});
+        return;
+    }
+    //const result = await collections.users!.insertOne({})
+
+    //TODO 
+    //rewrite this using the class format the Feedback insert one uses
+})
+
 authRouter.post('/login', async (req: Request, res: Response) => {
     const { username, password } = req.body;
     //check if user exists
