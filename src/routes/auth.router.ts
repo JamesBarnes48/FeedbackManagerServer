@@ -1,5 +1,6 @@
 import express, {Request, Response} from 'express';
 import { collections } from "../connection";
+import User from '../classes/User';
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -7,19 +8,24 @@ export const authRouter = express.Router();
 authRouter.use(express.json());
 
 authRouter.post('/register', async (req: Request, res: Response) => {
-    const { username, password } = req.body;
+    if(!req.body.username?.length || !req.body.password?.length){
+        res.status(400).json({message: 'Missing fields'});
+        return;
+    }
+
     //validate username and password according to clientside checks
-    if(!/^[a-zA-Z0-9_]{3,30}$/.test(username)){
+    const newUser = new User(req.body.username, req.body.password);
+    if(!newUser.validUsername()){
         res.status(400).json({message: 'Invalid username field'});
         return;
     }
-    if(!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,32}$/.test(password)){
+    if(!newUser.validPassword()){
         res.status(400).json({message: 'Invalid password field'});
         return;
     }
 
     //check if username already exists
-    const foundUser = await collections.users!.findOne({username: username});
+    const foundUser = await collections.users!.findOne({username: newUser.username});
     if(foundUser){
         res.status(400).json({message: 'Username is already taken'});
         return;
