@@ -13,10 +13,15 @@ export default class User {
 
     //validate password before storing hashed password in class variable - return value is success of operation
         //storing the plaintext password in memory could be a security risk - instead bring it straight from request params into hashing function with validation inline
-    async setPassword(password: string){
+    async setPassword(password: string): Promise<boolean>{
         if(!(password?.length && (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,32}$/.test(password)))) return false;
-        this.passwordHash = await bcrypt.hash(password, 10);
-        return true;
+
+        try{
+            this.passwordHash = await bcrypt.hash(password, 10);
+            return true;
+        }catch(err){
+            return false;
+        }
     }
 
     toString(){
