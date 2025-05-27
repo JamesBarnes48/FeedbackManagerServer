@@ -9,12 +9,13 @@ authRouter.use(express.json());
 
 authRouter.post('/register', async (req: Request, res: Response) => {
     //validate username and password according to clientside checks
-    const newUser = new User(req.body.username, req.body.password);
+    const newUser = new User(req.body.username);
     if(!newUser.validUsername()){
         res.status(400).json({message: 'Invalid username field'});
         return;
     }
-    if(!newUser.validPassword()){
+    //set password hash stored in User class
+    if(!newUser.setPassword(req.body.password)){
         res.status(400).json({message: 'Invalid password field'});
         return;
     }
@@ -26,10 +27,10 @@ authRouter.post('/register', async (req: Request, res: Response) => {
         return;
     }
 
-    const result = await collections.users!.insertOne({})
-
-    //TODO 
-    //rewrite this using the class format the Feedback insert one uses
+    const result = await collections.users!.insertOne(newUser.format());
+    result
+        ? res.status(201).json({message: `Successfully insert new user with id ${result.insertedId}`})
+        : res.status(500).json({message: "Failed to insert a new user."});
 })
 
 authRouter.post('/login', async (req: Request, res: Response) => {
