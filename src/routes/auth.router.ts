@@ -8,11 +8,6 @@ export const authRouter = express.Router();
 authRouter.use(express.json());
 
 authRouter.post('/register', async (req: Request, res: Response) => {
-    if(!req.body.username?.length || !req.body.password?.length){
-        res.status(400).json({message: 'Missing fields'});
-        return;
-    }
-
     //validate username and password according to clientside checks
     const newUser = new User(req.body.username, req.body.password);
     if(!newUser.validUsername()){
@@ -30,7 +25,8 @@ authRouter.post('/register', async (req: Request, res: Response) => {
         res.status(400).json({message: 'Username is already taken'});
         return;
     }
-    //const result = await collections.users!.insertOne({})
+
+    const result = await collections.users!.insertOne({})
 
     //TODO 
     //rewrite this using the class format the Feedback insert one uses

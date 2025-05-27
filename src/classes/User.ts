@@ -5,10 +5,14 @@ export default class User {
     }
 
     validUsername(){
-        return !(/^[a-zA-Z0-9_]{3,30}$/.test(this.username))
+        return this.username?.length && (/^[a-zA-Z0-9_]{3,30}$/.test(this.username))
     }
 
     validPassword(){
-        return !(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,32}$/.test(this.password));
+        return this.password?.length && (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,32}$/.test(this.password));
+    }
+
+    format(){
+        return {}
     }
 }
