@@ -9,7 +9,7 @@ authRouter.use(express.json());
 
 //TODO
 //standardise res.send or res.json across all routers
-//test and see if the register and also the login works
+//test and see if the  the login works
 
 authRouter.post('/register', async (req: Request, res: Response) => {
     try{
@@ -53,7 +53,7 @@ authRouter.post('/login', async (req: Request, res: Response) => {
             return;
         }
         //use bcrypt to check that entered password matches stored password after hashing
-        const match = await bcrypt.compare(password, foundUser.password);
+        const match = await bcrypt.compare(password, foundUser.passwordHash);
         if(!match){
             res.status(401).json({message: 'Invalid username or password'});
             return;
@@ -65,7 +65,15 @@ authRouter.post('/login', async (req: Request, res: Response) => {
             process.env.JWT_SECRET_KEY,
             {expiresIn: '1h'}
         );
-        res.status(200).json({message: 'Login successful', token});
+        //set cookie on response header
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: false, //set to true in production with HTTPS
+            sameSite: 'lax',
+            maxAge: 3600000
+        });
+
+        res.status(200).json({message: 'Login successful'});
     }catch(err){
         res.status(500).json({message: 'A server error occurred'});
         return;
