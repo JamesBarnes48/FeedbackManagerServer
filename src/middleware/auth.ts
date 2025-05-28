@@ -16,12 +16,13 @@ declare global {
     }
 }
 
-export default function checkLoggedIn(req: Request, res: Response, next: NextFunction){
+export default function checkLoggedIn(req: Request, res: Response, next: NextFunction): void{
     const token = req.cookies?.token;
     
 
     if (!token) {
-      return res.status(401).json({ error: 'No token provided' });
+      res.status(401).json({ error: 'No token provided' });
+      return;
     }
   
     try {
@@ -30,6 +31,7 @@ export default function checkLoggedIn(req: Request, res: Response, next: NextFun
         req.user = decoded;
         next();
     } catch (err) {
-      return res.status(401).json({ error: 'Invalid token' });
+      res.status(401).json({ error: 'Invalid token' });
+      return;
     }
 }

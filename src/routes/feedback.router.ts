@@ -2,10 +2,12 @@ import express, {Request, Response} from 'express';
 
 import { collections } from "../connection";
 import Feedback from '../classes/Feedback'
+import checkLoggedIn from '../middleware/auth';
 import { ObjectId } from 'mongodb';
 
 export const feedbackRouter = express.Router();
 feedbackRouter.use(express.json());
+feedbackRouter.use(checkLoggedIn);
 
 feedbackRouter.get('/', async (req: Request, res: Response) => {
     try{
