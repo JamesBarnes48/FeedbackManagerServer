@@ -66,7 +66,7 @@ authRouter.post('/login', async (req: Request, res: Response): Promise<void> => 
             httpOnly: true,
             secure: false, //set to true in production with HTTPS
             sameSite: 'lax',
-            maxAge: 3600000
+            maxAge: 1800000 //expires after 30 mins
         });
 
         res.status(200).json({message: 'Login successful'});
