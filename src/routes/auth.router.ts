@@ -7,11 +7,7 @@ const jwt = require('jsonwebtoken');
 export const authRouter = express.Router();
 authRouter.use(express.json());
 
-//TODO
-//standardise res.send or res.json across all routers
-//test and see if the  the login works
-
-authRouter.post('/register', async (req: Request, res: Response) => {
+authRouter.post('/register', async (req: Request, res: Response): Promise<void> => {
     try{
         //validate username and password according to clientside checks
         const newUser = new User(req.body.username);
@@ -43,7 +39,7 @@ authRouter.post('/register', async (req: Request, res: Response) => {
     }
 })
 
-authRouter.post('/login', async (req: Request, res: Response) => {
+authRouter.post('/login', async (req: Request, res: Response): Promise<void> => {
     try{
         const { username, password } = req.body;
         //check if user exists
@@ -77,5 +73,22 @@ authRouter.post('/login', async (req: Request, res: Response) => {
     }catch(err){
         res.status(500).json({message: 'A server error occurred'});
         return;
+    }
+})
+
+//uses httponly cookies to verify is user is authed - these cookies can only be checked serverside (for security)
+//used to provide access to vue router routes
+authRouter.get('/heartbeat', (req: Request, res: Response): void => {
+    const { token } = req.cookies;
+    if(!token){
+        res.status(401).json({authenticated: false});
+        return;
+    }
+    try{
+        const payload = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        res.status(200).json({authenticated: true, username: payload.username});
+        return;
+    }catch(err){
+        res.status(401).json({authenticated: false});
     }
 })
