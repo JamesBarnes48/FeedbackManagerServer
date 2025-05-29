@@ -12,7 +12,7 @@ feedbackRouter.use(checkLoggedIn);
 feedbackRouter.get('/', async (req: Request, res: Response) => {
     try{
         const result = await collections.feedback!.find().toArray();
-        const feedbacks = result.map((r) => {return {id: r._id, isPositive: r.isPositive, rating: r.rating, expectation: r.expectation, details: r.details}});
+        const feedbacks = result.map((r) => {return {id: r._id, isPositive: r.isPositive, rating: r.rating, expectation: r.expectation, details: r.details, addedBy: r.addedBy}});
         res.status(200).json({feedbacks});
     }catch(err){
         console.error('GET /feedback error: ', err);
