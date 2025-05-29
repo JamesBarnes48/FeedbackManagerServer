@@ -1,17 +1,18 @@
 export default class Feedback{
-    constructor(readonly isPositive: boolean, readonly rating: number, readonly expectation: string, readonly details: string){
+    constructor(readonly isPositive: boolean, readonly rating: number, readonly expectation: string, readonly details: string, readonly addedBy: string){
         //try to infer isPositive unless unprovided
         this.isPositive = isPositive === undefined? isPositive: !!isPositive;
         //NaN ratings will be caught at isValid
         this.rating = +rating;
         this.expectation = String(expectation);
         this.details = String(details);
+        this.addedBy = String(addedBy);
     }
 
     readonly validExpectations = ['strongly disagree', 'disagree', 'neither agree nor disagree', 'agree', 'strongly agree'];
 
     toString() {
-        return {"isPositive": this.isPositive, "rating": this.rating, "expectation": this.expectation, "details": this.details}
+        return {"isPositive": this.isPositive, "rating": this.rating, "expectation": this.expectation, "details": this.details, "addedBy": this.addedBy}
     }
 
     format() {

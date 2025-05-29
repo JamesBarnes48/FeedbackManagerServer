@@ -26,9 +26,9 @@ feedbackRouter.post('/', async (req: Request, res: Response) => {
             res.status(400).send('feedbackProps could not be found in request body');
             return;
         }
-        const {isPositive, rating, expectation, details} = req.body.feedbackProps;
+        const {isPositive, rating, expectation, details, addedBy} = req.body.feedbackProps;
     
-        const feedbackInstance = new Feedback(isPositive, rating, expectation, details);
+        const feedbackInstance = new Feedback(isPositive, rating, expectation, details, addedBy);
         if(!feedbackInstance.isValid()){ 
             res.status(400).send('Invalid feedback parameters');
             return;
