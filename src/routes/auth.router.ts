@@ -92,3 +92,8 @@ authRouter.get('/heartbeat', (req: Request, res: Response): void => {
         res.status(401).json({authenticated: false});
     }
 })
+
+authRouter.post('/logout', (req: Request, res: Response): void => {
+    res.clearCookie('token');
+    res.json({success: true});
+})
