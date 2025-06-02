@@ -12,6 +12,8 @@ You'll need to configure it with your MongoDB URI code, allowing the app to logi
 
 Also set your jwt secret key here. This can be whatever you want as its used to sign the login tokens.
 
+And as always, run 'npm i' to set up packages before running the app.
+
 # Running the Project
 
 'npm run dev' is mapped to 'ts-node server.js' so this server can be spun up using that command. Doing this with the correct config ought to open the ports for requests and initiate the connection to the MongoDB cluster.
