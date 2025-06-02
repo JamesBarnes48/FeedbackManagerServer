@@ -12,6 +12,8 @@ You'll need to configure it with your MongoDB URI code, allowing the app to logi
 
 Also set your jwt secret key here. This can be whatever you want as its used to sign the login tokens.
 
+You also have to ensure CORS is set for your client server in server.ts so we can recieve requests from it. Just follow the template already there and ensure CORS is permitted from there.
+
 And as always, run 'npm i' to set up packages before running the app.
 
 # Running the Project
